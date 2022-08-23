@@ -1,0 +1,32 @@
+config: # preconfigged for 2560x1440
+    Screenshot:
+        position_coords:
+            position_x: 730
+            position_y: 1120
+        screenshot_size:
+            width: 1100
+            height: 250
+    ColorizeThresholds: # making grayscale for openCV recognition
+        top: 230 # name of NPC
+        bot: 30  # text
+    CuttingRectangles: # cutting name and text on rectangles
+        rectangle_coords:
+            top_x: 50
+            top_y: 10
+            bot_x: 50
+            bot_y: 67
+        rectangle_size:
+            top_x: 300
+            top_y: 50
+            bot_x: 1000
+            bot_y: 160
+    DialogFrameDetection: # which pixel to check
+        pixel_coords_x: 20
+        pixel_coords_y: 150
+    CuttingCorrection: # when dialog without HUD
+        shift_y: 23
+        debug: false
+    Translation:
+        from: en
+        to: ru
+        translator: ggl
