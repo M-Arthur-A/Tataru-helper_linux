@@ -123,8 +123,8 @@ void screenshot(cv::Mat &img, Config &config) {
   // detect dialog / interactive dialog (without GUI)
   cv::Vec3b color = img.at<cv::Vec3b>(cv::Point(config.pixelXcoords, config.pixelYcoords));
   if (!((color[0] == 201) && (color[1] == 217) && (color[2] == 226)) &&
-      !((color[0] == 202) && (color[1] == 219) && (color[2] == 228)) &&
       !((color[0] == 159) && (color[1] == 177) && (color[2] == 191)) &&
+      !((color[0] == 202) && (color[1] == 219) && (color[2] == 228)) &&
       !((color[0] == 199) && (color[1] == 216) && (color[2] == 231)) &&
       !((color[0] == 105) && (color[1] == 113) && (color[2] == 115))) {
     if (config.needDemo) {

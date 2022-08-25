@@ -10,21 +10,26 @@
 void prepareQuery(std::string &query) {
   // NAME does not need translation
   auto PosNewLine = std::distance(query.begin(), std::find(query.begin(), query.end(), '\n'));
-
   std::cout << BOLDCYAN << query.substr(0, PosNewLine) << RESET << ": ";
 
   query = query.substr(PosNewLine+1, query.size());
   std::replace(query.begin(), query.end(), ' ', '+');
   std::replace(query.begin(), query.end(), '\n', '+');
-  for(auto mistakeIdx = query.find("++"); mistakeIdx != std::string::npos;) {
+  std::replace(query.begin(), query.end(), '|', 'I');
+
+  while(auto mistakeIdx = query.find("++") != std::string::npos) {
     query.erase(mistakeIdx, 1);
   }
+
   if (query.back() == '+') {
     query.pop_back();
   }
 }
 
 std::string gglTranslate(std::string &query, Config &config) {
+  if (config.needDemo) {
+    std::cout << "starting get-request" << std::endl;
+  }
   cpr::Response r = cpr::Get(cpr::Url{ "https://translate.google.com/m?sl=" + config.translateLangFrom +
                                        "&tl=" + config.translateLangTo + "&hl=" + config.translateLangTo + "&q=" + query},
                              cpr::Header{ { "User-Agent",
@@ -41,6 +46,9 @@ std::string gglTranslate(std::string &query, Config &config) {
     std::string::size_type res_stop  = r.text.find(R"(</div>)", res_start);
     return r.text.substr(res_start, res_stop - res_start);
   }
+  if(config.needDemo) {
+    std::cout << "get-request returns " << r.status_code << " on this query \n" << query << std::endl;
+  }
 
   return "error";
 }
@@ -50,6 +58,9 @@ std::string gglTranslate(std::string &query, Config &config) {
 void translate(std::string &query, std::string &queryPrevious, Config &config) {
   if (query != queryPrevious && !query.empty()) {
     queryPrevious = query;
+
+    if (config.needDemo) { std::cout << query << std::endl; }
+
   } else {
     return;
   }
