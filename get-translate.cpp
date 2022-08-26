@@ -11,7 +11,7 @@
 void prepareQuery(std::string &query) {
   // NAME does not need translation
   auto PosNewLine = std::distance(query.begin(), std::find(query.begin(), query.end(), '\n'));
-  std::cout << BOLDCYAN << query.substr(0, PosNewLine) << RESET << ": ";
+  std::cout << "\n\n" << BOLDCYAN << query.substr(0, PosNewLine) << RESET << ": ";
 
   query = query.substr(PosNewLine+1, query.size());
   std::replace(query.begin(), query.end(), ' ', '+');
@@ -65,6 +65,6 @@ void translate(std::string &query, std::string &queryPrevious, Config &config) {
 
   prepareQuery(query);
   if (config.translator == "ggl") {
-    std::cout << gglTranslate(query, config) << '\n'<< std::endl;
+    std::cout << gglTranslate(query, config);
   }
 }

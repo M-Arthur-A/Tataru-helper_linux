@@ -11,6 +11,7 @@
 
 
 int main(int argc, char** argv) {
+  std::cout.setf( std::ios_base::unitbuf ); // to flush stdout buffer with each <<
   const char* configPath;
   if(argv[1]) {
     configPath = argv[1];
