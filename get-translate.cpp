@@ -5,6 +5,7 @@
 #include <iostream>
 #include <algorithm>
 #include <string>
+#include <regex>
 
 
 void prepareQuery(std::string &query) {
@@ -16,10 +17,7 @@ void prepareQuery(std::string &query) {
   std::replace(query.begin(), query.end(), ' ', '+');
   std::replace(query.begin(), query.end(), '\n', '+');
   std::replace(query.begin(), query.end(), '|', 'I');
-
-  while(auto mistakeIdx = query.find("++") != std::string::npos) {
-    query.erase(mistakeIdx, 1);
-  }
+  query = std::regex_replace(query, std::regex("\\+\\+"), "+");
 
   if (query.back() == '+') {
     query.pop_back();
@@ -28,7 +26,7 @@ void prepareQuery(std::string &query) {
 
 std::string gglTranslate(std::string &query, Config &config) {
   if (config.needDemo) {
-    std::cout << "starting get-request" << std::endl;
+    std::cout << "starting get-request with query:\n" << query << std::endl;
   }
   cpr::Response r = cpr::Get(cpr::Url{ "https://translate.google.com/m?sl=" + config.translateLangFrom +
                                        "&tl=" + config.translateLangTo + "&hl=" + config.translateLangTo + "&q=" + query},

@@ -126,6 +126,7 @@ void screenshot(cv::Mat &img, Config &config) {
       !((color[0] == 159) && (color[1] == 177) && (color[2] == 191)) &&
       !((color[0] == 202) && (color[1] == 219) && (color[2] == 228)) &&
       !((color[0] == 199) && (color[1] == 216) && (color[2] == 231)) &&
+      !((color[0] == 200) && (color[1] == 181) && (color[2] == 168)) &&
       !((color[0] == 105) && (color[1] == 113) && (color[2] == 115))) {
     if (config.needDemo) {
       std::cout << color << std::endl;
@@ -135,6 +136,7 @@ void screenshot(cv::Mat &img, Config &config) {
   }
   if (((color[0] == 202) && (color[1] == 219) && (color[2] == 228)) |
       ((color[0] == 199) && (color[1] == 216) && (color[2] == 231)) |
+      ((color[0] == 200) && (color[1] == 181) && (color[2] == 168)) |
       ((color[0] == 105) && (color[1] == 113) && (color[2] == 115))) {
     screen.videoDialogShift = config.videoDialogShift;
   }
