@@ -6,7 +6,7 @@ config: # preconfigged for 2560x1440
         screenshot_size:
             width: 1100
             height: 250
-    ColorizeThresholds: # making grayscale for openCV recognition
+    ColorizeThresholds: # making grayscale with openCV for further recognition
         top: 230 # name of NPC
         bot: 30  # text
     CuttingRectangles: # cutting name and text on rectangles
