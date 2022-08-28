@@ -3,6 +3,7 @@
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 #include <X11/extensions/XShm.h>
+#include <array>
 #include <cstddef>
 #include <sys/ipc.h>
 #include <sys/shm.h>
@@ -16,7 +17,7 @@
 
 
 struct ScreenShot{
-  ScreenShot(Config &config): config(config) {
+  ScreenShot(const Config &config): config(config) {
     display = XOpenDisplay(nullptr);
     root = DefaultRootWindow(display);
     XGetWindowAttributes(display, root, &window_attributes);
@@ -24,7 +25,7 @@ struct ScreenShot{
     ximg = XGetImage(display, root, config.x, config.y + videoDialogShift, config.width, config.height, AllPlanes, ZPixmap);
   }
 
-    void operator() (cv::Mat& cv_img){
+  void operator() (cv::Mat& cv_img) {
     int BitsPerPixel = ximg->bits_per_pixel;
     std::vector<uint8_t> pixels;
     pixels.resize(config.width * config.height * 4);
@@ -83,7 +84,7 @@ struct ScreenShot{
     XCloseDisplay(display);
   }
 
-  Config &config;
+  const Config &config;
   Display* display;
   Window root;
   XWindowAttributes window_attributes;
@@ -93,24 +94,27 @@ struct ScreenShot{
 };
 
 
-void screenshot(cv::Mat &img, Config &config) {
+void findPxlToCheck(cv::Mat &img, const Config &config) {
+  /* find pixel with certain color in dialog frame
+   * and fills that pixel black
+   */
+    cv::Vec3b color = img.at<cv::Vec3b>(cv::Point(config.pixelXcoords, config.pixelYcoords));
+    std::cout << color << std::endl;
+    color[0] = 0;
+    color[1] = 0;
+    color[2] = 0;
+    img.at<cv::Vec3b>(cv::Point(config.pixelXcoords, config.pixelYcoords)) = color;
+    imshow("Result", img);
+    cv::waitKey();
+}
+
+void screenshot(cv::Mat &img, const Config &config) {
   ScreenShot screen(config);
 
   for(uint i;; ++i) {
     double start = clock();
 
     screen(img);
-
-    /* find pixel with certain color in dialog frame
-    cv::Vec3b color = img.at<cv::Vec3b>(cv::Point(20,150));
-    std::cout << color << std::endl;
-    color[0] = 0;
-    color[1] = 0;
-    color[2] = 0;
-    img.at<cv::Vec3b>(cv::Point(20,150)) = color;
-    imshow("Result", img);
-    cv::waitKey();
-    */
 
     if(!(i & 0b111111)) {
       if(config.needDemo) {
@@ -120,32 +124,27 @@ void screenshot(cv::Mat &img, Config &config) {
     }
   }
 
-  // detect dialog / interactive dialog (without GUI)
+  // detect dialog
+  // findPxlToCheck(img, config);
   cv::Vec3b color = img.at<cv::Vec3b>(cv::Point(config.pixelXcoords, config.pixelYcoords));
-  if (!((color[0] == 201) && (color[1] == 217) && (color[2] == 226)) &&
-      !((color[0] == 159) && (color[1] == 177) && (color[2] == 191)) &&
-      !((color[0] == 190) && (color[1] == 210) && (color[2] == 217)) &&
-      !((color[0] == 202) && (color[1] == 219) && (color[2] == 228)) &&
-      !((color[0] == 199) && (color[1] == 216) && (color[2] == 231)) &&
-      !((color[0] == 200) && (color[1] == 181) && (color[2] == 168)) &&
-      !((color[0] == 105) && (color[1] == 113) && (color[2] == 115))) {
-    if (config.needDemo) {
-      std::cout << color << std::endl;
+  for (std::array<int, 4> pixColor : config.dialogColors) {
+    if ((color[0] == pixColor[0]) && (color[1] == pixColor[1]) && (color[2] == pixColor[2])) {
+
+      if (pixColor[3] == 1) { // interactive dialog (without GUI)
+        screen.videoDialogShift = config.videoDialogShift;
+      }
+
+      screen.cleaner(img);
+
+      if(config.needDemo) { // demonstrate capture window
+        cv::imshow("img", img);
+        cv::waitKey(0);
+      }
+      return;
     }
-    // img.setTo(cv::Scalar::all(0)); // make all black
-    return;
-  }
-  if (((color[0] == 202) && (color[1] == 219) && (color[2] == 228)) |
-      ((color[0] == 199) && (color[1] == 216) && (color[2] == 231)) |
-      ((color[0] == 200) && (color[1] == 181) && (color[2] == 168)) |
-      ((color[0] == 105) && (color[1] == 113) && (color[2] == 115))) {
-    screen.videoDialogShift = config.videoDialogShift;
   }
 
-  screen.cleaner(img);
-
-  if(config.needDemo) {
-    // demontrate capture window
+  if(config.needDemo) { // demontrate capture window
     cv::imshow("img", img);
     cv::waitKey(0);
   }

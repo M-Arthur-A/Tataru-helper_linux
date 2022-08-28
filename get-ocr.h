@@ -4,7 +4,4 @@
 #include <leptonica/allheaders.h>
 #include <string>
 
-
-// Pix* mat8ToPix(cv::Mat *mat8);
-
-void OCRfromImg(std::string &outText, cv::Mat &matImg);
+void OCRfromImg(std::string &outText, const cv::Mat &matImg);

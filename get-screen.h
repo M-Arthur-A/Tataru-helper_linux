@@ -10,6 +10,8 @@
 #include <time.h>
 #include <iostream>
 
+#define FPS(start) (CLOCKS_PER_SEC / (clock()-start))
+
 struct ScreenShot {
   Display* display;
   Window root;
@@ -18,7 +20,7 @@ struct ScreenShot {
   XImage* ximg;
   uint videoDialogShift;
 
-  ScreenShot(Config &config);
+  ScreenShot(const Config &config);
 
   void operator() (cv::Mat& cv_img);
 
@@ -27,4 +29,6 @@ struct ScreenShot {
   ~ScreenShot();
 };
 
-void screenshot(cv::Mat &img, Config &config);
+void findPxlToCheck(cv::Mat &img, const Config &config);
+
+void screenshot(cv::Mat &img, const Config &config);

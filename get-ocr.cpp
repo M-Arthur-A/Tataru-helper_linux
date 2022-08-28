@@ -6,7 +6,7 @@
 
 // https://tesseract-ocr.github.io/tessdoc/Examples_C++.html
 
-void OCRfromImg(std::string& outText, cv::Mat &matImg) {
+void OCRfromImg(std::string& outText, const cv::Mat &matImg) {
   if (matImg.empty()) {
     printf("there is no cv::Mat image!!!!");
     exit(1);
@@ -20,6 +20,7 @@ void OCRfromImg(std::string& outText, cv::Mat &matImg) {
   }
 
   api->SetImage(matImg.data, matImg.cols, matImg.rows, 4, matImg.step);
+
   // Get OCR result
   outText = std::string(api->GetUTF8Text());
 

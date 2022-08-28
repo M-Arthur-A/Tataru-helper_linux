@@ -23,6 +23,6 @@
 
 void prepareQuery(std::string &query);
 
-std::string gglTranslate(std::string &query, Config &config);
+std::string gglTranslate(const std::string &query, const Config &config);
 
-void translate(std::string &query, std::string &queryPrevious, Config &config);
+void translate(std::string &query, std::string &queryPrevious, const Config &config);

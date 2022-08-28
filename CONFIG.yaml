@@ -23,6 +23,14 @@ config: # preconfigged for 2560x1440
     DialogFrameDetection: # which pixel to check
         pixel_coords_x: 20
         pixel_coords_y: 150
+    DialogFrameColors: # color values of pixel in different types of dialogs, 4th item means that dialog without HUD
+        - [201, 217, 226, 0]
+        - [159, 177, 191, 0]
+        - [190, 210, 217, 0]
+        - [202, 219, 228, 1]
+        - [199, 216, 231, 1]
+        - [200, 181, 168, 1]
+        - [105, 113, 115, 1]
     CuttingCorrection: # when dialog without HUD
         shift_y: 23
         debug: false

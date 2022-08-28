@@ -3,6 +3,8 @@
 #include <yaml-cpp/node/detail/iterator_fwd.h>
 #include <yaml-cpp/yaml.h>
 #include <string>
+#include <array>
+#include <vector>
 
 class Config {
 public:
@@ -31,10 +33,12 @@ public:
       } else if (key == "DialogFrameDetection") {
         pixelXcoords = value["pixel_coords_x"].as<uint>();
         pixelYcoords = value["pixel_coords_y"].as<uint>();
+      } else if (key == "DialogFrameColors") {
+        dialogColors = value.as<std::vector<std::array<int, 4>>>();
       } else if (key == "CuttingCorrection") {
         videoDialogShift = value["shift_y"].as<uint>();
         needDemo = value["debug"].as<bool>();
-      } else {
+      } else if (key == "Translation") {
         translateLangFrom = value["from"].as<std::string>();
         translateLangTo   = value["to"].as<std::string>();
         translator        = value["translator"].as<std::string>();
@@ -50,4 +54,5 @@ public:
   uint videoDialogShift;
   bool needDemo;
   std::string translateLangFrom, translateLangTo, translator;
+  std::vector<std::array<int, 4>> dialogColors;
 };
