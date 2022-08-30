@@ -31,6 +31,7 @@ config: # preconfigged for 2560x1440
         - [199, 216, 231, 1]
         - [200, 181, 168, 1]
         - [105, 113, 115, 1]
+        - [106, 114, 115, 1]
     CuttingCorrection: # when dialog without HUD
         shift_y: 23
         debug: false

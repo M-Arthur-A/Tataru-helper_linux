@@ -145,6 +145,7 @@ void screenshot(cv::Mat &img, const Config &config) {
   }
 
   if(config.needDemo) { // demontrate capture window
+    std::cout << color << " is not dialog" << std::endl;
     cv::imshow("img", img);
     cv::waitKey(0);
   }
