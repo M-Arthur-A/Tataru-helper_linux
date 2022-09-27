@@ -64,7 +64,9 @@ void translate(std::string &query, std::string &queryPrevious, const Config &con
   }
 
   prepareQuery(query);
-  if (config.translator == "ggl") {
+  if (!query.empty() && config.translator == "ggl") {
     std::cout << gglTranslate(query, config);
+  } else {
+    std::cout << "\r                                     \r";
   }
 }

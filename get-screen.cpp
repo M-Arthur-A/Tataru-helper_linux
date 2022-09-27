@@ -1,5 +1,6 @@
 #include "get-config.cpp"
 
+#include <opencv4/opencv2/opencv.hpp>
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 #include <X11/extensions/XShm.h>
@@ -7,7 +8,6 @@
 #include <cstddef>
 #include <sys/ipc.h>
 #include <sys/shm.h>
-#include <opencv4/opencv2/opencv.hpp>
 #include <time.h>
 /*
  * https://stackoverflow.com/a/39781697
