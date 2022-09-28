@@ -1,11 +1,12 @@
 # FF14 Tataru-helper-cli for LINUX
 
-This is analog of [NightlyRevenger/TataruHelper](https://github.com/NightlyRevenger/TataruHelper) for linux for Final Fantasy 14.
+This is linux analog of [NightlyRevenger/TataruHelper](https://github.com/NightlyRevenger/TataruHelper) for Final Fantasy 14.
+![DEMO](DEMO.png "Demonstration")
+
+## How it works
+Process: Xorg screenshot -> openCV -> ggl translate -> terminal text.
 
 ## Requirements
-
-Process: Xorg screenshot -> openCV -> ggl translate.
-
 Install:
 
 - for screenshot: X11, Xext
@@ -17,8 +18,10 @@ Install:
 - for get-request to translate: cpr (curl wrapper)
 
 - for loading yaml-config: yaml-cpp
-  
-  for compile: clang
+
+
+1. Check requirements and compile binary (with `make`)
+2. Check settings in CONFIG.yml (it is preconfigured for 2560x1440 display for russian lang)
 
 ## Usage
 
