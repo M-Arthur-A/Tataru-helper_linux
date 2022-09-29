@@ -1,7 +1,7 @@
 # FF14 Tataru-helper-cli for LINUX
 
 This is linux analog of [NightlyRevenger/TataruHelper](https://github.com/NightlyRevenger/TataruHelper) for Final Fantasy 14.
-![DEMO](DEMO.png "Demonstration")
+![DEMO](DEMO.jpg "Demonstration")
 
 ## How it works
 Process: Xorg screenshot -> openCV -> ggl translate -> terminal text.
